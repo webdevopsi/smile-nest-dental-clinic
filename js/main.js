@@ -9,22 +9,43 @@ document.addEventListener("DOMContentLoaded", () => {
        MOBILE MENU
        ===================================================== */
 
-    const menuButton = document.querySelector(".mobile-menu-button");
-    const mobileNavigation = document.querySelector(".mobile-navigation");
+    const menuButton =
+        document.querySelector(".mobile-menu-button") ||
+        document.querySelector(".mobile-menu-toggle");
+
+    const mobileNavigation =
+        document.querySelector(".mobile-navigation") ||
+        document.querySelector(".main-nav");
+
 
     if (menuButton && mobileNavigation) {
 
         menuButton.addEventListener("click", () => {
 
-            mobileNavigation.classList.toggle("open");
+            const isOpen =
+                mobileNavigation.classList.contains("open");
 
-            menuButton.classList.toggle("active");
+            mobileNavigation.classList.toggle(
+                "open",
+                !isOpen
+            );
+
+            menuButton.classList.toggle(
+                "active",
+                !isOpen
+            );
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
 
         });
 
 
         const mobileLinks =
             mobileNavigation.querySelectorAll("a");
+
 
         mobileLinks.forEach(link => {
 
@@ -33,6 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 mobileNavigation.classList.remove("open");
 
                 menuButton.classList.remove("active");
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
 
             });
 
@@ -53,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!header) return;
 
+
         if (window.scrollY > 40) {
 
             header.classList.add("scrolled");
@@ -67,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     updateHeader();
+
 
     window.addEventListener(
         "scroll",
@@ -95,9 +123,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         if (entry.isIntersecting) {
 
-                            entry.target.classList.add("visible");
+                            entry.target.classList.add(
+                                "visible"
+                            );
 
-                            observer.unobserve(entry.target);
+                            observer.unobserve(
+                                entry.target
+                            );
 
                         }
 
@@ -240,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       PHONE / WHATSAPP SAFETY
+       WHATSAPP LINKS
        ===================================================== */
 
     const phoneNumber =
@@ -260,41 +292,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const message =
                 "Hello Smile Nest Dental Clinic, I would like to book a dental appointment.";
 
+
             const whatsappURL =
                 `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
-            link.href = whatsappURL;
 
-        });
-
-    });
-
-
-    /* =====================================================
-       CONTACT FORM / APPOINTMENT BUTTONS
-       ===================================================== */
-
-    const appointmentButtons =
-        document.querySelectorAll(
-            "[data-appointment]"
-        );
-
-
-    appointmentButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const appointmentSection =
-                document.querySelector("#appointment");
-
-
-            if (appointmentSection) {
-
-                appointmentSection.scrollIntoView({
-                    behavior: "smooth"
-                });
-
-            }
+            link.href =
+                whatsappURL;
 
         });
 
@@ -344,6 +348,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             menuButton.classList.remove(
                 "active"
+            );
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
             );
 
         }
